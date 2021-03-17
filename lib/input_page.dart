@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'icon_content.dart';
 import 'reusable_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-const bottomContainerHeight = 80.0;
-const activeCardColor = Color(0xFF1D1E33);
-const inactiveCardColor = Color(0xFF111328);
-const bottomContainerColor = Color(0xFFEB1555);
+import 'constants.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -17,10 +13,11 @@ class InputPage extends StatefulWidget {
 enum Gender { male, female }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColor = inactiveCardColor;
-  Color femaleCardColor = inactiveCardColor;
+  Color maleCardColor = kInactiveCardColor;
+  Color femaleCardColor = kInactiveCardColor;
 
   Gender selectedGender = Gender.male;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +26,7 @@ class _InputPageState extends State<InputPage> {
           title: Text('BMI CALCULATOR'),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
               child: Row(
@@ -40,7 +38,7 @@ class _InputPageState extends State<InputPage> {
                               selectedGender = Gender.male;
                             });
                           },
-                          color: selectedGender == Gender.male ? activeCardColor : inactiveCardColor,
+                          color: selectedGender == Gender.male ? kActiveCardColor : kInactiveCardColor,
                           cardChild: IconContent(FontAwesomeIcons.mars, 'MALE'))),
                   Expanded(
                       child: ReusableCard(
@@ -49,29 +47,63 @@ class _InputPageState extends State<InputPage> {
                               selectedGender = Gender.female;
                             });
                           },
-                          color: selectedGender == Gender.female ? activeCardColor : inactiveCardColor,
+                          color: selectedGender == Gender.female ? kActiveCardColor : kInactiveCardColor,
                           cardChild: IconContent(FontAwesomeIcons.venus, 'MALE'))),
                 ],
               ),
             ),
-            Expanded(child: ReusableCard(color: activeCardColor, cardChild: Column())),
+            Expanded(
+                child: ReusableCard(
+                    color: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('HEIGHT', style: kLabelTextStyle),
+                        Row(
+                            children: [
+                              Text(height.toString(), style: kNumberTextStyle),
+                              Text('cm', style: kLabelTextStyle)
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic),
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                              inactiveTrackColor: Color(0xFF8D8E98),
+                              activeTrackColor: Colors.white,
+                              thumbColor: Color(0xFFEB1555),
+                              overlayColor: Color(0x29EB1555),
+                              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15),
+                              overlayShape: RoundSliderOverlayShape(overlayRadius: 30)),
+                          child: Slider(
+                              value: height.toDouble(),
+                              min: 120,
+                              max: 220,
+                              onChanged: (double newValue) {
+                                setState(() {
+                                  height = newValue.toInt();
+                                });
+                              }),
+                        )
+                      ],
+                    ))),
             Expanded(
               child: Row(
                 children: [
                   Expanded(
                       child: ReusableCard(
-                          color: activeCardColor, cardChild: IconContent(FontAwesomeIcons.question, 'MALE'))),
+                          color: kActiveCardColor, cardChild: IconContent(FontAwesomeIcons.question, 'MALE'))),
                   Expanded(
                       child: ReusableCard(
-                          color: activeCardColor, cardChild: IconContent(FontAwesomeIcons.question, 'MALE'))),
+                          color: kActiveCardColor, cardChild: IconContent(FontAwesomeIcons.question, 'MALE'))),
                 ],
               ),
             ),
             Container(
-              color: bottomContainerColor,
+              color: kBottomContainerColor,
               margin: EdgeInsets.only(top: 10),
               width: double.infinity,
-              height: bottomContainerHeight,
+              height: kBottomContainerHeight,
             )
           ],
         ));
