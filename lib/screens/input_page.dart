@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'icon_content.dart';
-import 'reusable_card.dart';
+import '../components/icon_content.dart';
+import '../components/reusable_card.dart';
 import 'results_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'constants.dart';
+import '../constants.dart';
+import '../components/bottom_button.dart';
+import '../components/round_icon_button.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -174,61 +176,13 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            BottomButton()
+            BottomButton(
+              buttonTitle: 'CALCULATE',
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ResultsPage()));
+              },
+            ),
           ],
         ));
   }
 }
-
-class BottomButton extends StatelessWidget {
-  BottomButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ResultsPage()));
-      },
-      child: Container(
-        color: kBottomContainerColor,
-        margin: EdgeInsets.only(top: 10),
-        padding: EdgeInsets.only(bottom: 20),
-        width: double.infinity,
-        height: kBottomContainerHeight,
-        child: Center(
-          child: Text(
-            'CALCULATE',
-            style: kLargeButtonTextStyle,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  RoundIconButton({@required this.icon, this.onPressed});
-  final IconData icon;
-  final Function onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(icon),
-      onPressed: onPressed,
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
-      constraints: BoxConstraints.tightFor(width: 56, height: 56),
-      elevation: 6.0,
-    );
-  }
-}
-
-/*
-Container(
-margin: EdgeInsets.all(15),
-decoration: BoxDecoration(
-borderRadius: BorderRadius.circular(20),
-color: Color(0xFF1D1E33),
-),
-),*/
